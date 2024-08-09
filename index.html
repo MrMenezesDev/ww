@@ -1,0 +1,51 @@
+<html lang="en">
+  <head>
+    <title>Meu PWA</title>
+  </head>
+  <body>
+    <nav>
+      <h1>Meu PWA</h1>
+    </nav>
+    <div class="container">
+      <button id="startButton">Ler QR Code</button>
+      <video id="video" width="300" height="200" style="display:none;"></video>
+      <p id="output"></p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <script>
+      const startButton = document.getElementById('startButton');
+      const video = document.getElementById('video');
+      const output = document.getElementById('output');
+
+      startButton.addEventListener('click', async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+        video.srcObject = stream;
+        video.setAttribute('playsinline', true); // required to tell iOS safari we don't want fullscreen
+        video.style.display = 'block';
+        video.play();
+        requestAnimationFrame(tick);
+      });
+
+      function tick() {
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+          const canvas = document.createElement('canvas');
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          const context = canvas.getContext('2d');
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+          const code = jsQR(imageData.data, imageData.width, imageData.height);
+          if (code) {
+            output.textContent = `QR Code URL: ${code.data}`;
+            video.style.display = 'none';
+            video.srcObject.getTracks().forEach(track => track.stop());
+          } else {
+            requestAnimationFrame(tick);
+          }
+        } else {
+          requestAnimationFrame(tick);
+        }
+      }
+    </script>
+  </body>
+</html>
