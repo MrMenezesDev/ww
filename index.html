@@ -12,22 +12,11 @@
       <a id="output" href="https://wa.me/+557186672923?text=!nota "></a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
-      <!-- PyScript CSS -->
-      <link rel="stylesheet" href="https://pyscript.net/releases/2024.8.2/core.css">
-      <!-- CSS for examples -->
-      <!-- This script tag bootstraps PyScript -->
-      <script type="module" src="https://pyscript.net/releases/2024.8.2/core.js"></script>
-      <py-config>
-        autoclose_loader = true
-        runtimes = [
-        { src = "https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js", name = "pyodide-alpha", lang = "python" },
-        ]
-      </py-config>
     <script>
       const startButton = document.getElementById('startButton');
       const video = document.getElementById('video');
       const buscar = document.getElementById('buscar');
-      const output = document.getElementById('url');
+      const output = document.getElementById('output');
 
       startButton.addEventListener('click', async () => {
         const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
