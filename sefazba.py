@@ -3,10 +3,39 @@ from enum import Enum
 import requests
 from bs4 import BeautifulSoup
 from unicodedata import normalize
-from stringcase import snakecase
 import re
 
 
+def lowercase(string):
+    """Convert string into lower case.
+
+    Args:
+        string: String to convert.
+
+    Returns:
+        string: Lowercase case string.
+
+    """
+
+    return str(string).lower()
+
+
+def snakecase(string):
+    """Convert string into snake case.
+    Join punctuation with underscore
+
+    Args:
+        string: String to convert.
+
+    Returns:
+        string: Snake cased string.
+
+    """
+
+    string = re.sub(r"[\-\.\s]", '_', str(string))
+    if not string:
+        return string
+    return lowercase(string[0]) + re.sub(r"[A-Z]", lambda matched: '_' + lowercase(matched.group(0)), string[1:])
 def normalize_data(text):
     return normalize('NFKD', text)
 
@@ -186,3 +215,7 @@ def get_data_from_qrcode(url):
     sefaz = SefazBa(url)
     data = sefaz.get_nota()
     return data
+
+response = get_data_from_qrcode('http://nfe.sefaz.ba.gov.br/servicos/nfce/qrcode.aspx?p=29240813574594125720650010009512201767788540|2|1|1|BC15D6D0586F8208629110C8E4D99E18D7046CCF')
+
+print(response)

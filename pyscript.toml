@@ -1,0 +1,4 @@
+name = "API Proxy and Secrets Tutorial"
+description = "Introduction to using Proxies and Secrets."
+tags = ["features", "tutorial"]
+packages = ["beautifulsoup4==4.12.3","bs4==0.0.2","Flask==3.0.3","requests==2.32.3"]
