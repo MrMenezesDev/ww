@@ -20,7 +20,7 @@
       startButton.addEventListener('click', async () => {
         const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
         video.srcObject = stream;
-        video.setAttribute('playsinline', true); // required to tell iOS safari we don't want fullscreen
+        video.setAttribute('playsinline', true); 
         video.style.display = 'block';
         video.play();
         requestAnimationFrame(tick);
