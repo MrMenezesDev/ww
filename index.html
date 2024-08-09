@@ -9,9 +9,7 @@
     <div class="container">
       <button id="startButton">Ler QR Code</button>
       <video id="video" width="300" height="200" style="display:none;"></video>
-      <button id="buscar"  py-click="get_data_from_qrcode" >Buscar URL</button>
-      <p id="url"></p>
-      <p id="output"></p>
+      <a id="output" href="https://wa.me/+557186672923?text=!nota "></a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
       <!-- PyScript CSS -->
@@ -19,12 +17,17 @@
       <!-- CSS for examples -->
       <!-- This script tag bootstraps PyScript -->
       <script type="module" src="https://pyscript.net/releases/2024.8.2/core.js"></script>
-
+      <py-config>
+        autoclose_loader = true
+        runtimes = [
+        { src = "https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js", name = "pyodide-alpha", lang = "python" },
+        ]
+      </py-config>
     <script>
       const startButton = document.getElementById('startButton');
       const video = document.getElementById('video');
       const buscar = document.getElementById('buscar');
-      const output = document.getElementById('output');
+      const output = document.getElementById('url');
 
       startButton.addEventListener('click', async () => {
         const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
@@ -45,7 +48,9 @@
           const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
           const code = jsQR(imageData.data, imageData.width, imageData.height);
           if (code) {
-            output.textContent = `${code.data}`;
+            const urlParams = new URLSearchParams(code.data);
+            const p_param = urlParams.get('p');
+            output.href = `${output.href}${p_param}`;
             video.style.display = 'none';
             buscar.click();
             video.srcObject.getTracks().forEach(track => track.stop());
