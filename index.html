@@ -9,12 +9,21 @@
     <div class="container">
       <button id="startButton">Ler QR Code</button>
       <video id="video" width="300" height="200" style="display:none;"></video>
+      <button id="buscar"  py-click="get_data_from_qrcode" style="display:none;" >Buscar URL</button>
+      <p id="url"></p>
       <p id="output"></p>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+      <!-- PyScript CSS -->
+      <link rel="stylesheet" href="https://pyscript.net/releases/2024.8.2/core.css">
+      <!-- CSS for examples -->
+      <!-- This script tag bootstraps PyScript -->
+      <script type="module" src="https://pyscript.net/releases/2024.8.2/core.js"></script>
+
     <script>
       const startButton = document.getElementById('startButton');
       const video = document.getElementById('video');
+      const buscar = document.getElementById('buscar');
       const output = document.getElementById('output');
 
       startButton.addEventListener('click', async () => {
@@ -38,6 +47,7 @@
           if (code) {
             output.textContent = `QR Code URL: ${code.data}`;
             video.style.display = 'none';
+            buscar.style.display = 'block';
             video.srcObject.getTracks().forEach(track => track.stop());
           } else {
             requestAnimationFrame(tick);
