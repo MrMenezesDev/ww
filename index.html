@@ -9,7 +9,7 @@
     <div class="container">
       <button id="startButton">Ler QR Code</button>
       <video id="video" width="300" height="200" style="display:none;"></video>
-      <button id="buscar"  py-click="get_data_from_qrcode" style="display:none;" >Buscar URL</button>
+      <button id="buscar"  py-click="get_data_from_qrcode" >Buscar URL</button>
       <p id="url"></p>
       <p id="output"></p>
     </div>
@@ -45,9 +45,9 @@
           const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
           const code = jsQR(imageData.data, imageData.width, imageData.height);
           if (code) {
-            output.textContent = `QR Code URL: ${code.data}`;
+            output.textContent = `${code.data}`;
             video.style.display = 'none';
-            buscar.style.display = 'block';
+            buscar.click();
             video.srcObject.getTracks().forEach(track => track.stop());
           } else {
             requestAnimationFrame(tick);
